@@ -1,4 +1,4 @@
-package com.example.exchangecurrency.data
+package com.example.exchangecurrency.data.local
 
 interface BaseRepo {
 

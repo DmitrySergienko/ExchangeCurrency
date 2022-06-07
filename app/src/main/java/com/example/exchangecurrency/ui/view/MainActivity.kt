@@ -1,7 +1,7 @@
 package com.example.exchangecurrency.ui.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
