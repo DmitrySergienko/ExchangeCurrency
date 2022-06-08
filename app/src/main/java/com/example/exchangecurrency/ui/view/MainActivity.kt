@@ -2,17 +2,16 @@ package com.example.exchangecurrency.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
-import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModelContract
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
+
     //create viewModel
-    private val viewModel: MainActivityViewModelContract.ViewModel by lazy {
-        ViewModelProvider(this).get(MainActivityViewModel::class.java)
-    }
+    private val viewModel : MainActivityViewModel by viewModel()
+
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,14 +20,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        binding.button.setOnClickListener {
-            //we are requesting data from viewModel
-            viewModel.getData()
+        binding.buttonExCurrency.setOnClickListener {
+
+            viewModel.getData()//we are requesting data from liveDat
 
         }
 
-        viewModel.data.observe(this) {
-            binding.textView.text = it
+        viewModel.currencyLiveData.observe(this) {
+            binding.textViewExBase.text = it.toString()
         }
     }
 }

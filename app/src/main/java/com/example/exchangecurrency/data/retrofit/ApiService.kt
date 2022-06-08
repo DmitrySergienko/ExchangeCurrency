@@ -1,4 +1,4 @@
-package com.example.exchangecurrency.data.retrofit.currency
+package com.example.exchangecurrency.data.retrofit
 
 
 import com.example.exchangecurrency.domain.Currency

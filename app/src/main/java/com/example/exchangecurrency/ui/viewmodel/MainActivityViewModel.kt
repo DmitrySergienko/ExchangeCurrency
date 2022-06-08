@@ -1,28 +1,25 @@
 package com.example.exchangecurrency.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.exchangecurrency.data.local.BaseRepo
-import com.example.exchangecurrency.data.local.BaseRepoImpl
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import androidx.lifecycle.ViewModel
+import com.example.exchangecurrency.domain.Currency
+import com.example.exchangecurrency.domain.GetCurrencyRep
 
-class MainActivityViewModel : MainActivityViewModelContract.ViewModel() {
+class MainActivityViewModel(private val repository: GetCurrencyRep) :
+    ViewModel() {
 
-    private val repo: BaseRepo = BaseRepoImpl()
 
-    override val data: MutableLiveData<String> = MutableLiveData<String>()
+    private val _currencyLiveData: MutableLiveData<Currency> = MutableLiveData<Currency>()
+    val currencyLiveData: LiveData<Currency> = _currencyLiveData
 
-    //request list of data
-    override fun getData(){
-        val repoData =repo.provideData()
-        //put our data to LiveData
-        data.postValue(repoData)
+
+    //get data from api
+    fun getData() {
+
+        val dataFromApi = repository.getCurrency()
+        _currencyLiveData.postValue(dataFromApi)//put our data to LiveData
+
     }
 
-    //для отписки
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
-    }
 }
