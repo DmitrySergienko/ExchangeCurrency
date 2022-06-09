@@ -2,6 +2,8 @@ package com.example.exchangecurrency.data.retrofit
 
 
 import com.example.exchangecurrency.domain.Currency
+
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
@@ -15,5 +17,5 @@ interface ApiService {
         @Query("from") from: String,
         @Query("amount") amount: String,
         @Header("apiKey") apiKey: String,
-    ) : Currency
+    ) : Call<Currency>
 }

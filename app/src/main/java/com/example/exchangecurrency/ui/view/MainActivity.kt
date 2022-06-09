@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.currencyLiveData.observe(this) {
-            binding.textViewExBase.text = it.toString()
+            val amount =  it.result
+            binding.textViewExBase.text = amount.toString()
         }
     }
 }

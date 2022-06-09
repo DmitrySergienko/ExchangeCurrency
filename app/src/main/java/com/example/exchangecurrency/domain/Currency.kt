@@ -1,10 +1,13 @@
 package com.example.exchangecurrency.domain
 
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 @Keep
+@Parcelize
 data class Currency(
     @SerializedName("date")
     val date: String,
@@ -18,4 +21,4 @@ data class Currency(
     val result: Double,
     @SerializedName("success")
     val success: Boolean
-)
+): Parcelable
