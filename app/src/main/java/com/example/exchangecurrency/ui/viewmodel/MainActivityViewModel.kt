@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.exchangecurrency.domain.Currency
 import com.example.exchangecurrency.domain.GetCurrencyRep
 import kotlinx.coroutines.launch
-
-import retrofit2.Call
 import retrofit2.await
 
 
@@ -17,13 +15,15 @@ class MainActivityViewModel(private val repository: GetCurrencyRep) :
 
 
     private val _currencyLiveData: MutableLiveData<Currency> = MutableLiveData<Currency>()
-    val currencyLiveData: LiveData<Currency>  = _currencyLiveData
+    val currencyLiveData: LiveData<Currency> = _currencyLiveData
+
+    val userLiveData: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
 
 
-    //get data from api
-    fun getData() = viewModelScope.launch{
-        val dataFromApi = repository.getCurrency().await()
-        _currencyLiveData.postValue(dataFromApi)//put our data to LiveData
+    fun getData(am: Int) = viewModelScope.launch {
+
+        val dataFromApi = repository.getCurrency(am).await()
+        _currencyLiveData.postValue(dataFromApi)
 
     }
 

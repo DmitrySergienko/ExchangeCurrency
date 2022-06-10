@@ -7,5 +7,6 @@ import retrofit2.Call
 
 interface GetCurrencyRep {
 
-    suspend fun getCurrency() : Call<Currency>
+    suspend fun getCurrency(amount: Int) : Call<Currency>
+
 }

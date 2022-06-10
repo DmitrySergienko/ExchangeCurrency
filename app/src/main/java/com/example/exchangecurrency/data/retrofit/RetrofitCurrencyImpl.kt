@@ -13,7 +13,8 @@ class RetrofitCurrencyImpl(
 ) : GetCurrencyRep {
 
 
-    override suspend fun getCurrency(): Call<Currency> {
-        return api.getCurrency("RUB", "AED", "1", API_KEY)
+    override suspend fun getCurrency(amount: Int): Call<Currency> {
+        return api.getCurrency("RUB", "AED", "$amount", API_KEY)
     }
+
 }

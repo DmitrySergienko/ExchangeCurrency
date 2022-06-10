@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
 
 
     //create viewModel
-    private val viewModel : MainActivityViewModel by viewModel()
+    private val viewModel: MainActivityViewModel by viewModel()
 
 
     lateinit var binding: ActivityMainBinding
@@ -21,14 +21,20 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.buttonExCurrency.setOnClickListener {
-
-            viewModel.getData()//we are requesting data from liveDat
+            val userData = binding.editText.text.toString().toInt()
+            viewModel.getData(userData)//we are requesting data from liveDat
 
         }
 
         viewModel.currencyLiveData.observe(this) {
-            val amount =  it.result
+            val amount = it.result
             binding.textViewExBase.text = amount.toString()
         }
+
+        fun customerData() {
+            val userData = binding.editText.text.toString().toInt()
+            viewModel.userLiveData.postValue(userData)
+        }
+
     }
 }
