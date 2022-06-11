@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size">48sp</dimen>
+    <dimen name="margine_border">30sp</dimen>
+    <dimen name="icon_size">80dp</dimen>
+</resources>

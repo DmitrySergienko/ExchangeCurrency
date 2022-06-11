@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ExchangeCurrency</string>
+    <string name="textSize">30sp</string>
+    <string name="amount">RUB</string>
+    <string name="aed">AED</string>
+    <string name="button">Exchange</string>
+
+    <dimen name="layout_width">300dp</dimen>
 </resources>
