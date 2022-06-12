@@ -31,10 +31,7 @@ class MainActivity : AppCompatActivity() {
             binding.textViewExBase.text = amount.toString()
         }
 
-        fun customerData() {
-            val userData = binding.editText.text.toString().toInt()
-            viewModel.userLiveData.postValue(userData)
-        }
+
 
     }
 }

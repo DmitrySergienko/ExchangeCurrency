@@ -17,8 +17,6 @@ class MainActivityViewModel(private val repository: GetCurrencyRep) :
     private val _currencyLiveData: MutableLiveData<Currency> = MutableLiveData<Currency>()
     val currencyLiveData: LiveData<Currency> = _currencyLiveData
 
-    val userLiveData: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
-
 
     fun getData(am: Int) = viewModelScope.launch {
 
