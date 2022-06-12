@@ -5,12 +5,15 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+
+const val RATE = "rate"
+const val TIMESTEMP = "timestamp"
+
 @Keep
 @Parcelize
-
 data class Info(
-    @SerializedName("rate")
+    @SerializedName(RATE)
     val rate: Double,
-    @SerializedName("timestamp")
+    @SerializedName(TIMESTEMP)
     val timestamp: Int
 ): Parcelable
