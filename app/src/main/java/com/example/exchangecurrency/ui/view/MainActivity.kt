@@ -2,12 +2,17 @@ package com.example.exchangecurrency.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.example.exchangecurrency.data.CurrencyDatabase
+import com.example.exchangecurrency.data.entities.UnitEx
+
 import com.example.exchangecurrency.databinding.ActivityMainBinding
+
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
-
 
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
@@ -26,15 +31,22 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        val db = Room.databaseBuilder(
+            applicationContext, CurrencyDatabase::class.java, "currency_database")
+            .build()
+
+
+
         viewModel.currencyLiveData.observe(this) {
             val amount = it.result
             binding.textViewExBase.text = amount.toString()
-        }
 
-        fun customerData() {
-            val userData = binding.editText.text.toString().toInt()
-            viewModel.userLiveData.postValue(userData)
-        }
+            Executors.newSingleThreadExecutor().execute {
+                val dao = db.currencyDao()
+                dao.insertOneUnit(UnitEx(1,it.result) )
+                println("VVV ${dao.getAll()}")
 
+            }
+        }
     }
 }
