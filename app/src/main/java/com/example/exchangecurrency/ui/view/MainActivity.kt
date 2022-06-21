@@ -33,10 +33,12 @@ class MainActivity : AppCompatActivity() {
             val amount = it.result
             binding.textViewExBase.text = amount.toString()
 
+
             Executors.newSingleThreadExecutor().execute {
                 val dao = app.getRoom().currencyDao()
                 dao.insertOneUnit(UnitEx(1,it.result) )
                 println("VVV ${dao.getAll()}")
+
 
             }
         }

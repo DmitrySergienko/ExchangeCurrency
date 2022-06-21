@@ -6,13 +6,17 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
+private const val AMOUNT = "amount"
+private const val FROM = "from"
+private const val TO = "to"
+
 @Parcelize
 @Keep
 data class Query(
-    @SerializedName("amount")
+    @SerializedName(AMOUNT)
     val amount: Int,
-    @SerializedName("from")
+    @SerializedName(FROM)
     val from: String,
-    @SerializedName("to")
+    @SerializedName(TO)
     val to: String
 ):Parcelable
