@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 val appModule = module {
     single(named("base_url")) { "https://api.apilayer.com/" }
 
-    single<GetCurrencyRep> { RetrofitCurrencyImpl(get()) }
+    single<GetCurrencyRep> {RetrofitCurrencyImpl(get()) }
     single<ApiService> { get<Retrofit>().create(ApiService::class.java) }
 
     single {
