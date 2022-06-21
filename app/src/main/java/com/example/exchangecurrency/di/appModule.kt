@@ -14,15 +14,10 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-// переменная типа module в которой описанны встроенные модули
-// в фигурных скобках указываем создание объекта
-// single - в единственном экземпляре
-// factory - каждый раз новый
-
 val appModule = module {
     single(named("base_url")) { "https://api.apilayer.com/" }
 
-    single<GetCurrencyRep> { RetrofitCurrencyImpl(get()) }
+    single<GetCurrencyRep> { RetrofitCurrencyImpl(api = get()) }
     single<ApiService> { get<Retrofit>().create(ApiService::class.java) }
 
     single {
@@ -34,7 +29,7 @@ val appModule = module {
     }
     factory<Converter.Factory> { GsonConverterFactory.create() }
 
-    viewModel { MainActivityViewModel(get()) }
+    viewModel { MainActivityViewModel(repository = get()) }
 }
 
 

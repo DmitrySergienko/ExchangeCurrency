@@ -44,6 +44,8 @@ android {
 }
 
 dependencies {
+    //Coil image download (аналог Picasso и Glide, написанный на Kotlin)
+    implementation("io.coil-kt:coil:1.4.0")
 
     //Room
     def room_version ="2.3.0"

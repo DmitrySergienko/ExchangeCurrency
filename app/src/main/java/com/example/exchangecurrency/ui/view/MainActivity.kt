@@ -3,6 +3,7 @@ package com.example.exchangecurrency.ui.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
+import coil.load
 import com.example.exchangecurrency.data.CurrencyDatabase
 import com.example.exchangecurrency.data.entities.UnitEx
 
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonExCurrency.setOnClickListener {
             val userData = binding.editText.text.toString().toInt()
             viewModel.getData(userData)//we are requesting data from liveDat
-
+            binding.image.load("https://firebasestorage.googleapis.com/v0/b/fairytale-cc1c4.appspot.com/o/Exchange_simple.png?alt=media&token=e5433cbf-4208-4c7e-9db9-35570f31e27c")
         }
 
         val db = Room.databaseBuilder(
@@ -46,7 +47,11 @@ class MainActivity : AppCompatActivity() {
                 dao.insertOneUnit(UnitEx(1,it.result) )
                 println("VVV ${dao.getAll()}")
 
+
+
             }
         }
+
+
     }
 }
