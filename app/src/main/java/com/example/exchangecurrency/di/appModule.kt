@@ -30,6 +30,9 @@ val appModule = module {
     factory<Converter.Factory> { GsonConverterFactory.create() }
 
     viewModel { MainActivityViewModel(repository = get()) }
+
+    factory {  }
+
 }
 
 
