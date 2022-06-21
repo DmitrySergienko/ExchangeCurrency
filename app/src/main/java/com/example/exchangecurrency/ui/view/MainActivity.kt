@@ -7,6 +7,7 @@ import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
+import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.Executors
 
@@ -14,6 +15,9 @@ class MainActivity : AppCompatActivity() {
 
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
+
+    val scope = CoroutineScope(Dispatchers.IO)
+    var job: Job? = null
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,12 +37,13 @@ class MainActivity : AppCompatActivity() {
             val amount = it.result
             binding.textViewExBase.text = amount.toString()
 
-            Executors.newSingleThreadExecutor().execute {
+            job?.cancel()
+            job = scope.launch {
                 val dao = app.getRoom().currencyDao()
-                dao.insertOneUnit(UnitEx(1,it.result) )
+                dao.insertOneUnit(UnitEx(1, it.result))
                 println("VVV ${dao.getAll()}")
-
             }
+
         }
     }
 }
