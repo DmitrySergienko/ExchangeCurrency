@@ -9,6 +9,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
+const val CURRENCY_DATABASE = "currency_database"
+
 class App : Application() {
 
     override fun onCreate() {
@@ -22,7 +24,7 @@ class App : Application() {
 
     fun getRoom() =
         Room.databaseBuilder(
-            applicationContext, CurrencyDatabase::class.java, "currency_database"
+            applicationContext, CurrencyDatabase::class.java, CURRENCY_DATABASE
         )
             .build()
 
