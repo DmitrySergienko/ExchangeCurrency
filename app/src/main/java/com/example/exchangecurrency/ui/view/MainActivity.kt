@@ -7,9 +7,11 @@ import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
