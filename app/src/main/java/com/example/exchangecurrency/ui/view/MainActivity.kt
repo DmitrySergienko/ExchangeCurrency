@@ -29,8 +29,7 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
     //create test Scope module
     override val scope: Scope by getOrCreateScope()
 
-    private val testClassA: TestClass by inject(named("a"))
-    private val testClassB: TestClass by inject(named("b"))
+
     private val room: RoomDB by inject(named("roomDb"))
 
 
@@ -63,11 +62,8 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
             }
 
         }
-//1) variant
-       //scope.get<TestClass>().testFunForScope()
-//2) variant
-        testClassA.testFunForScope()
-        testClassB.testFunForScope()
+        val a =A()
+        a.doSome()
 
     }
 
@@ -75,5 +71,17 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
         scope.closed
         super.onDestroy()
 
+    }
+
+}
+class A{
+    private val b = B()
+        fun doSome(){
+            b.printSomething()
+        }
+}
+class B{
+    fun printSomething(){
+        println("VVV print some test")
     }
 }
