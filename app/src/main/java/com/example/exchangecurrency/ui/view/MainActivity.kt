@@ -9,20 +9,30 @@ import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.*
-import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.getOrCreateScope
+import org.koin.core.component.inject
+
+
 import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
 
-    //create test Scope module
-    val myScope by lazy { getKoin().getOrCreateScope("",named("scope_test")) }
 
-    val scope = CoroutineScope(Dispatchers.IO)
+    //create test Scope module
+    override val scope: Scope by getOrCreateScope()
+
+    private val testClassA: TestClass by inject(named("a"))
+    private val testClassB: TestClass by inject(named("b"))
+
+
+    val cScope = CoroutineScope(Dispatchers.IO)
     var job: Job? = null
 
     lateinit var binding: ActivityMainBinding
@@ -44,19 +54,23 @@ class MainActivity : AppCompatActivity() {
             binding.textViewExBase.text = amount.toString()
 
             job?.cancel()
-            job = scope.launch {
+            job = cScope.launch {
                 val dao = app.getRoom().currencyDao()
                 dao.insertOneUnit(UnitEx(1, it.result))
                 println("VVV ${dao.getAll()}")
             }
 
         }
-//call myScope
-       myScope.get<TestClass>().testFunForScope()
+//1) variant
+       //scope.get<TestClass>().testFunForScope()
+//2) variant
+        testClassA.testFunForScope()
+        testClassB.testFunForScope()
+
     }
 
     override fun onDestroy() {
-        myScope.closed
+        scope.closed
         super.onDestroy()
 
     }

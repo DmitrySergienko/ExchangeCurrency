@@ -5,6 +5,7 @@ import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.data.retrofit.ApiService
 import com.example.exchangecurrency.data.retrofit.RetrofitCurrencyImpl
 import com.example.exchangecurrency.domain.GetCurrencyRep
+import com.example.exchangecurrency.ui.view.MainActivity
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -34,10 +35,11 @@ val appModule = module {
 
     viewModel { MainActivityViewModel(repository = get()) }
 
-    scope(named("scope_test")) {
-        scoped { TestClass()}
-    }
+    single(named("a")){TestClass()}
 
+    scope<MainActivity> {
+        scoped(named("b")) { TestClass() }
+    }
 }
 
 
