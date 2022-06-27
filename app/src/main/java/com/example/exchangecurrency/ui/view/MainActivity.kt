@@ -3,6 +3,7 @@ package com.example.exchangecurrency.ui.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.example.exchangecurrency.RoomDB
 import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     private val testClassA: TestClass by inject(named("a"))
     private val testClassB: TestClass by inject(named("b"))
+    private val room: RoomDB by inject(named("roomDb"))
 
 
     val cScope = CoroutineScope(Dispatchers.IO)
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
             job?.cancel()
             job = cScope.launch {
-                val dao = app.getRoom().currencyDao()
+                val dao = room.getRoom(app).currencyDao()
                 dao.insertOneUnit(UnitEx(1, it.result))
                 println("VVV ${dao.getAll()}")
             }

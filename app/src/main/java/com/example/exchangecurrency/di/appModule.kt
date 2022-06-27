@@ -1,6 +1,7 @@
 package com.example.exchangecurrency.di
 
 
+import com.example.exchangecurrency.RoomDB
 import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.data.retrofit.ApiService
 import com.example.exchangecurrency.data.retrofit.RetrofitCurrencyImpl
@@ -39,6 +40,10 @@ val appModule = module {
 
     scope<MainActivity> {
         scoped(named("b")) { TestClass() }
+    }
+
+    scope<MainActivity> {
+        scoped(named("roomDb")) { RoomDB() }
     }
 }
 
