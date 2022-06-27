@@ -1,6 +1,7 @@
 package com.example.exchangecurrency.di
 
 
+import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.data.retrofit.ApiService
 import com.example.exchangecurrency.data.retrofit.RetrofitCurrencyImpl
 import com.example.exchangecurrency.domain.GetCurrencyRep
@@ -33,7 +34,9 @@ val appModule = module {
 
     viewModel { MainActivityViewModel(repository = get()) }
 
-    factory {  }
+    scope(named("scope_test")) {
+        scoped { TestClass()}
+    }
 
 }
 

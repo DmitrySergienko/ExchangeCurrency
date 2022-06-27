@@ -3,18 +3,24 @@ package com.example.exchangecurrency.ui.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.*
+import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.concurrent.Executors
+import org.koin.core.qualifier.named
+
 
 class MainActivity : AppCompatActivity() {
 
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
+
+    //create test Scope module
+    val myScope by lazy { getKoin().getOrCreateScope("",named("scope_test")) }
 
     val scope = CoroutineScope(Dispatchers.IO)
     var job: Job? = null
@@ -45,5 +51,13 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+//call myScope
+       myScope.get<TestClass>().testFunForScope()
+    }
+
+    override fun onDestroy() {
+        myScope.closed
+        super.onDestroy()
+
     }
 }
