@@ -18,6 +18,7 @@ import org.koin.core.component.inject
 
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
+import kotlin.reflect.KProperty
 
 
 class MainActivity : AppCompatActivity(),KoinScopeComponent {
@@ -61,36 +62,35 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
                 println("VVV ${dao.getAll()}")
             }
         }
-        val printerImpl = PrinterImpl()
-        DelegateUser(printerImpl)
-
+//set
+        val du = DelegatePropUser()
+        du.v = "!!!"
+        println("VVV ${du.v}")
     }
 
     override fun onDestroy() {
         scope.closed
         super.onDestroy()
     }
-
 }
-interface Printer{
-    val message:String
-    fun print()
 
+//for "v" function (getDelegate()) will set or get any "value"
+class DelegatePropUser{
+    var v: String by getDelegate()
 }
-class PrinterImpl() : Printer {
-    override var message: String = "message"
-    override fun print() {
-        println("VVV $message")
+
+class Delegate {
+
+    var value = 123
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
+        return "VVV $value, thank for delegate '${property.name}'"
     }
-}
-// we delegate some method to other class if don't wont implement them
-//we im
-class DelegateUser(p:Printer) : Printer by p
 
-//same like
-/*
-class DelegateUser(p:Printer){
-fun print(){
-p.print()}
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, s: String) {
+        println("VVV $value has been asigned to '${property.name}' in $thisRef")
+    }
+
 }
-*/
+fun getDelegate() = Delegate()
+
+
