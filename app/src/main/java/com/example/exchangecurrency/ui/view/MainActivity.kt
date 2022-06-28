@@ -60,28 +60,37 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
                 dao.insertOneUnit(UnitEx(1, it.result))
                 println("VVV ${dao.getAll()}")
             }
-
         }
-        val a =A()
-        a.doSome()
+        val printerImpl = PrinterImpl()
+        DelegateUser(printerImpl)
 
     }
 
     override fun onDestroy() {
         scope.closed
         super.onDestroy()
-
     }
 
 }
-class A{
-    private val b = B()
-        fun doSome(){
-            b.printSomething()
-        }
+interface Printer{
+    val message:String
+    fun print()
+
 }
-class B{
-    fun printSomething(){
-        println("VVV print some test")
+class PrinterImpl() : Printer {
+    override var message: String = "message"
+    override fun print() {
+        println("VVV $message")
     }
 }
+// we delegate some method to other class if don't wont implement them
+//we im
+class DelegateUser(p:Printer) : Printer by p
+
+//same like
+/*
+class DelegateUser(p:Printer){
+fun print(){
+p.print()}
+}
+*/
