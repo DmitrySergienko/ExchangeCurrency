@@ -18,6 +18,7 @@ import org.koin.core.component.inject
 
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
+import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
 
@@ -62,7 +63,13 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
                 println("VVV ${dao.getAll()}")
             }
         }
-//set
+//delegate from the Box
+        val d = InTheBoxDelegates()
+        d.vetoValue = 2
+        println("VVV ${d.vetoValue}")
+//======================
+
+
         val du = DelegatePropUser()
         du.v = "!!!"
         println("VVV ${du.v}")
@@ -74,9 +81,10 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
     }
 }
 
-//for "v" function (getDelegate()) will set or get any "value"
+//fun "DelegatePropUser()" delegates some job to do other function "myDelegate()"
 class DelegatePropUser{
-    var v: String by getDelegate()
+    var v: String by myDelegate()
+
 }
 
 class Delegate {
@@ -91,6 +99,13 @@ class Delegate {
     }
 
 }
-fun getDelegate() = Delegate()
+fun myDelegate() = Delegate()
 
-
+//======================
+class InTheBoxDelegates{
+    var vetoValue by Delegates.vetoable(1){
+        property, oldValue, newValue ->
+        oldValue < newValue
+    }
+}
+//======================
