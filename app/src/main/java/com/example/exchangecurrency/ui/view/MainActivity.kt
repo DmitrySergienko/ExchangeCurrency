@@ -1,11 +1,15 @@
 package com.example.exchangecurrency.ui.view
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.load
 import com.example.exchangecurrency.RoomDB
-import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
@@ -51,6 +55,8 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
         setContentView(binding.root)
 
+        splashScreen(splashScreen) //Splash Screen
+
         //test new modules (myLibraryTest & myLibraryTest2)
       //  TestObject.sum(1,3)
       //  TestObject.both(2,4)
@@ -88,6 +94,20 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
     override fun onDestroy() {
         scope.closed
         super.onDestroy()
+    }
+}
+
+fun splashScreen(splashScreen: SplashScreen) {
+    splashScreen.setOnExitAnimationListener{splashScreenProvider ->
+        ObjectAnimator.ofFloat(
+            splashScreenProvider.view,
+            View.TRANSLATION_Y,
+            0f,-splashScreenProvider.view.height.toFloat()
+        ).apply {
+            duration = 500
+            interpolator = AnticipateInterpolator() //occurs with acceleration
+            doOnEnd { splashScreenProvider.remove() }
+        }.start()
     }
 }
 
