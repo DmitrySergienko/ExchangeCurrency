@@ -3,7 +3,6 @@ package com.example.exchangecurrency.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.exchangecurrency.domain.Currency
 import com.example.exchangecurrency.domain.GetCurrencyRep
 import kotlinx.coroutines.CoroutineScope
