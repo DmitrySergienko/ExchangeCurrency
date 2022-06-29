@@ -1,6 +1,7 @@
 package com.example.exchangecurrency.ui.view
 
 import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
@@ -39,23 +40,36 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     //create test Scope module
     override val scope: Scope by getOrCreateScope()
-
-
+    //room
     private val room: RoomDB by inject(named("roomDb"))
-
-
+    //coroutines
     val cScope = CoroutineScope(Dispatchers.IO)
     var job: Job? = null
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val splashScreen = installSplashScreen()
+            splashScreen.setOnExitAnimationListener { splashScreenProvider ->
+                ObjectAnimator.ofFloat(
+                    splashScreenProvider.view,
+                    View.TRANSLATION_Y,
+                    0f, -splashScreenProvider.view.height.toFloat()
+                ).apply {
+                    duration = 500
+                    interpolator = AnticipateInterpolator() //occurs with acceleration
+                    doOnEnd { splashScreenProvider.remove() }
+                }.start()
+            }
+        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
-        splashScreen(splashScreen) //Splash Screen
+        //splashScreen(splashScreen) //Splash Screen
 
         //test new modules (myLibraryTest & myLibraryTest2)
       //  TestObject.sum(1,3)
@@ -98,17 +112,7 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 }
 
 fun splashScreen(splashScreen: SplashScreen) {
-    splashScreen.setOnExitAnimationListener{splashScreenProvider ->
-        ObjectAnimator.ofFloat(
-            splashScreenProvider.view,
-            View.TRANSLATION_Y,
-            0f,-splashScreenProvider.view.height.toFloat()
-        ).apply {
-            duration = 500
-            interpolator = AnticipateInterpolator() //occurs with acceleration
-            doOnEnd { splashScreenProvider.remove() }
-        }.start()
-    }
+
 }
 
 //fun "DelegatePropUser()" delegates some job to do other function "myDelegate()"
