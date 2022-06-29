@@ -1,6 +1,8 @@
 package com.example.exchangecurrency.ui.view
 
 import android.animation.ObjectAnimator
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //splash Screen
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val splashScreen = installSplashScreen()
             splashScreen(splashScreen)
@@ -60,14 +64,23 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
         //splashScreen(splashScreen) //Splash Screen
 
         //test new modules (myLibraryTest & myLibraryTest2)
-      //  TestObject.sum(1,3)
-      //  TestObject.both(2,4)
+        //TestObject.sum(1,3)
+        //TestObject.both(2,4)
+
+        var blurRad = 0f //for blur effect
+
 
         binding.buttonExCurrency.setOnClickListener {
             val userData = binding.editText.text.toString().toInt()
             viewModel.getData(userData)//we are requesting data from liveDat
 
-            binding.image.load("https://firebasestorage.googleapis.com/v0/b/fairytale-cc1c4.appspot.com/o/Exchange_simple.png?alt=media&token=e5433cbf-4208-4c7e-9db9-35570f31e27c")
+            binding.image.load(
+                "https://firebasestorage.googleapis.com/v0/b/fairytale-cc1c4.appspot.com/o/Exchange_simple.png?alt=media&token=e5433cbf-4208-4c7e-9db9-35570f31e27c")
+
+            //blur effect
+            blurRad +=2
+            binding.image.setRenderEffect(RenderEffect.createBlurEffect(blurRad,blurRad,Shader.TileMode.REPEAT))
+
         }
 
         viewModel.currencyLiveData.observe(this) {
