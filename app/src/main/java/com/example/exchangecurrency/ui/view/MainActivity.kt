@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
         val d = InTheBoxDelegates()
         d.vetoValue = 2
         println("VVV ${d.vetoValue}")
-
+//======================
 
 
         val du = DelegatePropUser()
@@ -89,9 +89,10 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
     }
 }
 
-//for "v" function (getDelegate()) will set or get any "value"
+//fun "DelegatePropUser()" delegates some job to do other function "myDelegate()"
 class DelegatePropUser{
     var v: String by myDelegate()
+
 }
 
 class Delegate {
@@ -108,11 +109,11 @@ class Delegate {
 }
 fun myDelegate() = Delegate()
 
-
+//======================
 class InTheBoxDelegates{
     var vetoValue by Delegates.vetoable(1){
         property, oldValue, newValue ->
         oldValue < newValue
     }
 }
-
+//======================
