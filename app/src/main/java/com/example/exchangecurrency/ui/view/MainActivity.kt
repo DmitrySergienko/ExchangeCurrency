@@ -2,6 +2,7 @@ package com.example.exchangecurrency.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.load
 import com.example.exchangecurrency.RoomDB
 import com.example.exchangecurrency.TestClass
@@ -9,11 +10,15 @@ import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.getOrCreateScope
 import org.koin.core.component.inject
+
 
 
 import org.koin.core.qualifier.named
@@ -40,10 +45,15 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
+        //test new modules (myLibraryTest & myLibraryTest2)
+      //  TestObject.sum(1,3)
+      //  TestObject.both(2,4)
 
         binding.buttonExCurrency.setOnClickListener {
             val userData = binding.editText.text.toString().toInt()
