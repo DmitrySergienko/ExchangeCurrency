@@ -48,22 +48,10 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val splashScreen = installSplashScreen()
-            splashScreen.setOnExitAnimationListener { splashScreenProvider ->
-                ObjectAnimator.ofFloat(
-                    splashScreenProvider.view,
-                    View.TRANSLATION_Y,
-                    0f, -splashScreenProvider.view.height.toFloat()
-                ).apply {
-                    duration = 500
-                    interpolator = AnticipateInterpolator() //occurs with acceleration
-                    doOnEnd { splashScreenProvider.remove() }
-                }.start()
-            }
+            splashScreen(splashScreen)
         }
-
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -112,6 +100,18 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 }
 
 fun splashScreen(splashScreen: SplashScreen) {
+
+        splashScreen.setOnExitAnimationListener { splashScreenProvider ->
+            ObjectAnimator.ofFloat(
+                splashScreenProvider.view,
+                View.TRANSLATION_Y,
+                0f, -splashScreenProvider.view.height.toFloat()
+            ).apply {
+                duration = 500
+                interpolator = AnticipateInterpolator() //occurs with acceleration
+                doOnEnd { splashScreenProvider.remove() }
+            }.start()
+        }
 
 }
 
