@@ -26,11 +26,6 @@ class App : Application() {
         }
     }
 
-    fun getRoom() =
-        Room.databaseBuilder(
-            applicationContext, CurrencyDatabase::class.java, CURRENCY_DATABASE
-        )
-            .build()
 
 }
 

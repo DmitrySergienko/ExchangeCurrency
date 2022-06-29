@@ -3,6 +3,8 @@ package com.example.exchangecurrency.ui.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.example.exchangecurrency.RoomDB
+import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
@@ -13,13 +15,32 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.getOrCreateScope
+import org.koin.core.component.inject
 
-class MainActivity : AppCompatActivity() {
+
+
+import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
+import kotlin.properties.Delegates
+import kotlin.reflect.KProperty
+
+
+class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
 
-    val scope = CoroutineScope(Dispatchers.IO)
+
+    //create test Scope module
+    override val scope: Scope by getOrCreateScope()
+
+
+    private val room: RoomDB by inject(named("roomDb"))
+
+
+    val cScope = CoroutineScope(Dispatchers.IO)
     var job: Job? = null
 
     lateinit var binding: ActivityMainBinding
@@ -44,12 +65,54 @@ class MainActivity : AppCompatActivity() {
             binding.textViewExBase.text = amount.toString()
 
             job?.cancel()
-            job = scope.launch {
-                val dao = app.getRoom().currencyDao()
+            job = cScope.launch {
+                val dao = room.getRoom(app).currencyDao()
                 dao.insertOneUnit(UnitEx(1, it.result))
                 println("VVV ${dao.getAll()}")
             }
-
         }
+//delegate from the Box
+        val d = InTheBoxDelegates()
+        d.vetoValue = 2
+        println("VVV ${d.vetoValue}")
+
+
+
+        val du = DelegatePropUser()
+        du.v = "!!!"
+        println("VVV ${du.v}")
+    }
+
+    override fun onDestroy() {
+        scope.closed
+        super.onDestroy()
     }
 }
+
+//for "v" function (getDelegate()) will set or get any "value"
+class DelegatePropUser{
+    var v: String by myDelegate()
+}
+
+class Delegate {
+
+    var value = 123
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
+        return "VVV $value, thank for delegate '${property.name}'"
+    }
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, s: String) {
+        println("VVV $value has been asigned to '${property.name}' in $thisRef")
+    }
+
+}
+fun myDelegate() = Delegate()
+
+
+class InTheBoxDelegates{
+    var vetoValue by Delegates.vetoable(1){
+        property, oldValue, newValue ->
+        oldValue < newValue
+    }
+}
+
