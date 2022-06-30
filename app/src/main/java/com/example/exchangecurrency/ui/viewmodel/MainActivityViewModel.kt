@@ -26,7 +26,6 @@ class MainActivityViewModel(private val repository: GetCurrencyRep) :
 
 
     fun getData(am: Int) {
-
         scope.launch {
             val dataFromApi = repository.getCurrency(am).await()
             _currencyLiveData.postValue(dataFromApi)

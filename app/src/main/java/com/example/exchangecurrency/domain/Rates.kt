@@ -19,8 +19,6 @@ data class Rates(
 	val base: String? = null,
 	@field:SerializedName("timestamp")
 	val timestamp: Int? = null,
-	@field:SerializedName("AED")
-	val rUB: Double? = null,
 	@field:SerializedName("EUR")
 	val eUR: Double? = null,
 	@field:SerializedName("AED")

@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
 
-
     //create test Scope module
     override val scope: Scope by getOrCreateScope()
 
@@ -65,7 +64,6 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
         setContentView(binding.root)
 
-
         //test new modules (myLibraryTest & myLibraryTest2)
         //TestObject.sum(1,3)
         //TestObject.both(2,4)
@@ -85,18 +83,21 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
             binding.image.setRenderEffect(RenderEffect.createBlurEffect(blurRad,blurRad,Shader.TileMode.REPEAT))
 
         }
+
+
 // Currency rate observe Live Data
         viewModel.rateLiveDta.observe(this) {
             val rate = it.rates?.aED
             binding.textViewRate.text = "1 USD = ${rate.toString()} AED"
         }
 
-
 // Currency Exchange rate observe Live Data
         viewModel.currencyLiveData.observe(this) {
             val amount = it.result
             binding.textViewExBase.text = amount.toString()
 
+
+// Room
             job?.cancel()
             job = cScope.launch {
                 val dao = room.getRoom(app).currencyDao()
@@ -110,7 +111,6 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
         d.vetoValue = 2
         println("VVV ${d.vetoValue}")
 //======================
-
 
         val du = DelegatePropUser()
         du.v = "!!!"
