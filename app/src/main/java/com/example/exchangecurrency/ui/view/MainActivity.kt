@@ -42,11 +42,14 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
     //create test Scope module
     override val scope: Scope by getOrCreateScope()
+
     //room
     private val room: RoomDB by inject(named("roomDb"))
+
     //coroutines
     val cScope = CoroutineScope(Dispatchers.IO)
     var job: Job? = null
+
 
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,12 +59,12 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
             val splashScreen = installSplashScreen()
             splashScreen(splashScreen)
         }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
-        //splashScreen(splashScreen) //Splash Screen
 
         //test new modules (myLibraryTest & myLibraryTest2)
         //TestObject.sum(1,3)
@@ -69,10 +72,10 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
 
         var blurRad = 0f //for blur effect
 
-
         binding.buttonExCurrency.setOnClickListener {
             val userData = binding.editText.text.toString().toInt()
             viewModel.getData(userData)//we are requesting data from liveDat
+            viewModel.getRate()
 
             binding.image.load(
                 "https://firebasestorage.googleapis.com/v0/b/fairytale-cc1c4.appspot.com/o/Exchange_simple.png?alt=media&token=e5433cbf-4208-4c7e-9db9-35570f31e27c")
@@ -82,7 +85,14 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
             binding.image.setRenderEffect(RenderEffect.createBlurEffect(blurRad,blurRad,Shader.TileMode.REPEAT))
 
         }
+// Currency rate observe Live Data
+        viewModel.rateLiveDta.observe(this) {
+            val rate = it.rates?.aED
+            binding.textViewRate.text = "1 USD = ${rate.toString()} AED"
+        }
 
+
+// Currency Exchange rate observe Live Data
         viewModel.currencyLiveData.observe(this) {
             val amount = it.result
             binding.textViewExBase.text = amount.toString()
@@ -94,6 +104,7 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
                 println("VVV ${dao.getAll()}")
             }
         }
+
 //delegate from the Box
         val d = InTheBoxDelegates()
         d.vetoValue = 2

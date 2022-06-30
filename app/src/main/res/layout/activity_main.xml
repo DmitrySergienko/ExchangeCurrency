@@ -6,6 +6,20 @@
     android:background="@drawable/ic_pic_currency_back">
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_00"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_line_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,6 +46,19 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
+
+    <TextView
+        android:id="@+id/text_view_rate"
+        android:layout_width="@dimen/layout_width"
+        android:layout_height="wrap_content"
+        android:hint="@string/rate"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/guide_line_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guide_line_0" />
 
     <TextView
         android:id="@+id/text_view_ex_base"
@@ -65,6 +92,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button"
         android:textSize="@dimen/text_size"
+
         app:layout_constraintBottom_toTopOf="@+id/guide_line_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

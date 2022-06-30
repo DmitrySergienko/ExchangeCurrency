@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.ExchangeCurrency" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
@@ -16,6 +16,28 @@
 
         <style name="Theme.NewSplash" parent="Theme.ExchangeCurrency"/>
 
+    //-----MyTheme Grey
 
+    <style name="MyGreyOriginalTheme" parent="Theme.ExchangeCurrency">
+        <!-- Primary brand color. -->
+        <item name="colorPrimaryVariant">@color/light_grey_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/light_grey_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryGrey</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGrey</item>
+        <item name="colorAccent">#ef6c00</item>
+
+
+
+    </style>
 
      </resources>
