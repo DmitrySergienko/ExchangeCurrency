@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ExchangeCurrency"
 include ':app'
+include ':mylibraryTest'
+include ':mylibraryTest2'

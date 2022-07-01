@@ -17,6 +17,7 @@ import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
 import com.example.exchangecurrency.ui.viewmodel.MainActivityViewModel
+import com.example.mylibrarytest.TestObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -65,10 +66,12 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
         setContentView(binding.root)
 
         //test new modules (myLibraryTest & myLibraryTest2)
+
         //TestObject.sum(1,3)
         //TestObject.both(2,4)
 
         var blurRad = 0f //for blur effect
+
 
         binding.buttonExCurrency.setOnClickListener {
             val userData = binding.editText.text.toString().toInt()
