@@ -2,9 +2,11 @@ package com.example.exchangecurrency
 
 import android.app.Application
 import android.content.Context
+
 import android.support.multidex.MultiDex
 import androidx.room.Room
 import com.example.exchangecurrency.data.CurrencyDatabase
+
 import com.example.exchangecurrency.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

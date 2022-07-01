@@ -1,10 +1,18 @@
 package com.example.exchangecurrency.ui.view
 
+import android.animation.ObjectAnimator
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.load
 import com.example.exchangecurrency.RoomDB
-import com.example.exchangecurrency.TestClass
 import com.example.exchangecurrency.app
 import com.example.exchangecurrency.data.entities.UnitEx
 import com.example.exchangecurrency.databinding.ActivityMainBinding
@@ -32,38 +40,67 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
     //create viewModel
     private val viewModel: MainActivityViewModel by viewModel()
 
-
     //create test Scope module
     override val scope: Scope by getOrCreateScope()
 
-
+    //room
     private val room: RoomDB by inject(named("roomDb"))
 
-
+    //coroutines
     val cScope = CoroutineScope(Dispatchers.IO)
     var job: Job? = null
 
+
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //splash Screen
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val splashScreen = installSplashScreen()
+            splashScreen(splashScreen)
+        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         //test new modules (myLibraryTest & myLibraryTest2)
-        TestObject.sum(1,3)
-        TestObject.both(2,4)
+
+        //TestObject.sum(1,3)
+        //TestObject.both(2,4)
+
+        var blurRad = 0f //for blur effect
+
 
         binding.buttonExCurrency.setOnClickListener {
             val userData = binding.editText.text.toString().toInt()
             viewModel.getData(userData)//we are requesting data from liveDat
+            viewModel.getRate()
 
-            binding.image.load("https://firebasestorage.googleapis.com/v0/b/fairytale-cc1c4.appspot.com/o/Exchange_simple.png?alt=media&token=e5433cbf-4208-4c7e-9db9-35570f31e27c")
+            binding.image.load(
+                "https://firebasestorage.googleapis.com/v0/b/fairytale-cc1c4.appspot.com/o/Exchange_simple.png?alt=media&token=e5433cbf-4208-4c7e-9db9-35570f31e27c")
+
+            //blur effect
+            blurRad +=2
+            binding.image.setRenderEffect(RenderEffect.createBlurEffect(blurRad,blurRad,Shader.TileMode.REPEAT))
+
         }
 
+
+// Currency rate observe Live Data
+        viewModel.rateLiveDta.observe(this) {
+            val rate = it.rates?.aED
+            binding.textViewRate.text = "1 USD = ${rate.toString()} AED"
+        }
+
+// Currency Exchange rate observe Live Data
         viewModel.currencyLiveData.observe(this) {
             val amount = it.result
             binding.textViewExBase.text = amount.toString()
 
+
+// Room
             job?.cancel()
             job = cScope.launch {
                 val dao = room.getRoom(app).currencyDao()
@@ -71,12 +108,12 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
                 println("VVV ${dao.getAll()}")
             }
         }
+
 //delegate from the Box
         val d = InTheBoxDelegates()
         d.vetoValue = 2
         println("VVV ${d.vetoValue}")
 //======================
-
 
         val du = DelegatePropUser()
         du.v = "!!!"
@@ -87,6 +124,22 @@ class MainActivity : AppCompatActivity(),KoinScopeComponent {
         scope.closed
         super.onDestroy()
     }
+}
+
+fun splashScreen(splashScreen: SplashScreen) {
+
+        splashScreen.setOnExitAnimationListener { splashScreenProvider ->
+            ObjectAnimator.ofFloat(
+                splashScreenProvider.view,
+                View.TRANSLATION_Y,
+                0f, -splashScreenProvider.view.height.toFloat()
+            ).apply {
+                duration = 500
+                interpolator = AnticipateInterpolator() //occurs with acceleration
+                doOnEnd { splashScreenProvider.remove() }
+            }.start()
+        }
+
 }
 
 //fun "DelegatePropUser()" delegates some job to do other function "myDelegate()"

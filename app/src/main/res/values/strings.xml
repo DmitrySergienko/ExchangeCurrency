@@ -4,6 +4,8 @@
     <string name="amount">RUB</string>
     <string name="aed">AED</string>
     <string name="button">Exchange</string>
+    <string name="rate">USD RATE</string>
+    <string name="rate_rub">RUB RATE</string>
 
     <dimen name="layout_width">300dp</dimen>
 </resources>
